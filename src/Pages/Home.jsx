@@ -11,13 +11,19 @@ export const Home = () => {
   const [status, setStatus] = useState("");
   const [gender, setGender] = useState("");
 
-  useEffect(() => {
-    fetch(`https://rickandmortyapi.com/api/character?page=${page}?_limit=12
-    `)
+  const fetchData = () => {
+    const url = `https://rickandmortyapi.com/api/character?limit=12&page=${page}&name=${search}&status=${status}&gender=${gender}`;
+    fetch(url)
       .then((res) => res.json())
       .then((res) => setData(res.results))
       .catch((err) => console.log(err));
-  }, [page]);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [page, search, status, gender]);
+
+  console.log(Data);
 
   const handelNext = () => {
     setPage(page + 1);
@@ -61,10 +67,9 @@ export const Home = () => {
         <h1>All Characters</h1>
       </center>
       <Grid templateColumns="repeat(3,1fr)" gap={4}>
-        {Data.length > 0 &&
-          Data.map((el) => {
-            return <CharacterCard key={el.id} {...el} />;
-          })}
+        {Data?.map((el) => {
+          return <CharacterCard key={el.id} {...el} />;
+        })}
       </Grid>
 
       <button disabled={page <= 1} onClick={handelPrev}>

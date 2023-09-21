@@ -16,6 +16,10 @@ export const SinglePage = () => {
 
   console.log(Data);
 
+  if (!Data) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div>
       <center>
